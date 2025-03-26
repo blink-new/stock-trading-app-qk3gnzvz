@@ -21,21 +21,21 @@ const mockData = [
 
 export function MarketOverview() {
   return (
-    <Card className="w-full bg-white">
+    <Card className="w-full card-dark">
       <CardContent className="p-6">
-        <h2 className="text-xl text-black mb-4">Market Overview</h2>
+        <h2 className="text-xl text-zinc-500 mb-4">Market Overview</h2>
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={mockData}>
               <XAxis 
                 dataKey="time" 
-                stroke="#888888"
+                stroke="#666666"
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis 
-                stroke="#888888"
+                stroke="#666666"
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
