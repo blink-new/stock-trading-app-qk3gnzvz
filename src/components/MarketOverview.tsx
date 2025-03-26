@@ -1,33 +1,30 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
-import { LineChart, Line, ResponsiveContainer, YAxis, XAxis, Tooltip } from 'recharts'
-import { formatCurrency } from "@/lib/utils"
+import { Card, CardContent } from "./ui/card"
+import { LineChart, Line, ResponsiveContainer, YAxis, XAxis } from 'recharts'
 
 const mockData = [
-  { time: '9:30', value: 15750 },
-  { time: '10:00', value: 15850 },
-  { time: '10:30', value: 15900 },
-  { time: '11:00', value: 15875 },
-  { time: '11:30', value: 15950 },
-  { time: '12:00', value: 16000 },
-  { time: '12:30', value: 16100 },
-  { time: '13:00', value: 16050 },
-  { time: '13:30', value: 16150 },
-  { time: '14:00', value: 16200 },
+  { time: '9:30', value: 13500 },
+  { time: '10:00', value: 13750 },
+  { time: '10:30', value: 14000 },
+  { time: '11:00', value: 14250 },
+  { time: '11:30', value: 14500 },
+  { time: '12:00', value: 15000 },
+  { time: '12:30', value: 15250 },
+  { time: '13:00', value: 15500 },
+  { time: '13:30', value: 15750 },
+  { time: '14:00', value: 16000 },
   { time: '14:30', value: 16250 },
-  { time: '15:00', value: 16300 },
-  { time: '15:30', value: 16350 },
-  { time: '16:00', value: 16400 },
+  { time: '15:00', value: 16500 },
+  { time: '15:30', value: 17000 },
+  { time: '16:00', value: 17500 },
 ]
 
 export function MarketOverview() {
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Market Overview</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="h-[200px] w-full">
+    <Card className="w-full bg-white">
+      <CardContent className="p-6">
+        <h2 className="text-xl text-black mb-4">Market Overview</h2>
+        <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={mockData}>
               <XAxis 
@@ -43,35 +40,6 @@ export function MarketOverview() {
                 tickLine={false}
                 axisLine={false}
                 tickFormatter={(value) => `$${value}`}
-              />
-              <Tooltip
-                content={({ active, payload }) => {
-                  if (active && payload && payload.length) {
-                    return (
-                      <div className="rounded-lg border bg-background p-2 shadow-sm">
-                        <div className="grid grid-cols-2 gap-2">
-                          <div className="flex flex-col">
-                            <span className="text-[0.70rem] uppercase text-muted-foreground">
-                              Value
-                            </span>
-                            <span className="font-bold text-muted-foreground">
-                              {formatCurrency(payload[0].value)}
-                            </span>
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="text-[0.70rem] uppercase text-muted-foreground">
-                              Time
-                            </span>
-                            <span className="font-bold text-muted-foreground">
-                              {payload[0].payload.time}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  }
-                  return null
-                }}
               />
               <Line
                 type="monotone"
