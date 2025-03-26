@@ -2,6 +2,7 @@
 import { Bell, Search } from "lucide-react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
+import { ThemeToggle } from "./theme-toggle"
 
 export function Header() {
   return (
@@ -19,6 +20,7 @@ export function Header() {
             </div>
           </form>
         </div>
+        <ThemeToggle />
         <Button variant="ghost" size="icon" className="glass-button">
           <Bell className="h-4 w-4" />
           <span className="sr-only">Notifications</span>
