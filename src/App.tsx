@@ -1,7 +1,6 @@
 
 import { MarketOverview } from "./components/MarketOverview"
 import { ThemeProvider } from "./components/theme-provider"
-import { ThemeToggle } from "./components/theme-toggle"
 import { Sidebar } from "./components/Sidebar"
 import { Header } from "./components/Header"
 import { Portfolio } from "./components/pages/Portfolio"
@@ -34,7 +33,7 @@ function App() {
   }
 
   return (
-    <ThemeProvider defaultTheme="system">
+    <ThemeProvider defaultTheme="system" storageKey="tradepro-theme">
       <div className="min-h-screen bg-gradient-to-br from-background to-background/80 transition-colors duration-300">
         <div className="flex h-screen overflow-hidden">
           <Sidebar onNavigate={setCurrentPage} currentPage={currentPage} />
@@ -44,9 +43,6 @@ function App() {
           )}>
             <Header />
             <div className="container p-6">
-              <div className="flex justify-end mb-4">
-                <ThemeToggle />
-              </div>
               {renderPage()}
             </div>
           </main>

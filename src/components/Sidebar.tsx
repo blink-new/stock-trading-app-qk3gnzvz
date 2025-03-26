@@ -1,5 +1,5 @@
 
-import { cn } from "@/lib/utils"
+import { cn } from "../lib/utils"
 import {
   BarChart3,
   Wallet,
@@ -10,7 +10,7 @@ import {
   ChevronRight,
 } from "lucide-react"
 import { Button } from "./ui/button"
-import { useSidebarStore } from "@/store/sidebar"
+import { useSidebarStore } from "../store/sidebar"
 
 const sidebarItems = [
   { icon: BarChart3, label: "Markets", id: "markets" },
