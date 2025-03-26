@@ -34,7 +34,7 @@ function App() {
   }
 
   return (
-    <ThemeProvider defaultTheme="dark">
+    <ThemeProvider defaultTheme="system">
       <div className="min-h-screen bg-gradient-to-br from-background to-background/80 transition-colors duration-300">
         <div className="flex h-screen overflow-hidden">
           <Sidebar onNavigate={setCurrentPage} currentPage={currentPage} />

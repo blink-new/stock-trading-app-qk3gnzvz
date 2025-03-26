@@ -1,7 +1,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react"
 
-type Theme = "dark" | "light"
+type Theme = "dark" | "light" | "system"
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -15,7 +15,7 @@ type ThemeProviderState = {
 }
 
 const initialState: ThemeProviderState = {
-  theme: "dark",
+  theme: "system",
   setTheme: () => null,
 }
 
@@ -23,7 +23,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
 export function ThemeProvider({
   children,
-  defaultTheme = "dark",
+  defaultTheme = "system",
   storageKey = "vite-ui-theme",
   ...props
 }: ThemeProviderProps) {
@@ -34,21 +34,41 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement
-    
-    // Remove old classes
     root.classList.remove("light", "dark")
-    
-    // Add new theme class
-    root.classList.add(theme)
-    
+
+    if (theme === "system") {
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light"
+      root.classList.add(systemTheme)
+    } else {
+      root.classList.add(theme)
+    }
+
     // Update color scheme meta tag
     document
       .querySelector('meta[name="color-scheme"]')
-      ?.setAttribute("content", theme)
-    
+      ?.setAttribute("content", theme === "system" ? "light dark" : theme)
+
     // Save to localStorage
     localStorage.setItem(storageKey, theme)
   }, [theme, storageKey])
+
+  // Listen for system theme changes
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+    
+    const handleChange = () => {
+      if (theme === "system") {
+        const root = window.document.documentElement
+        root.classList.remove("light", "dark")
+        root.classList.add(mediaQuery.matches ? "dark" : "light")
+      }
+    }
+
+    mediaQuery.addEventListener("change", handleChange)
+    return () => mediaQuery.removeEventListener("change", handleChange)
+  }, [theme])
 
   const value = {
     theme,
