@@ -64,93 +64,90 @@
   }
 }
 
-/* Custom animations */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
+@layer components {
+  /* Custom animations */
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
 
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.7; }
-  100% { opacity: 1; }
-}
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
 
-@keyframes slideUp {
-  from { transform: translateY(10px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
+  @keyframes slideUp {
+    from { transform: translateY(10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
 
-.animate-pulse-subtle {
-  animation: pulse 2s ease-in-out infinite;
-}
+  .animate-pulse-subtle {
+    animation: pulse 2s ease-in-out infinite;
+  }
 
-.animate-slide-up {
-  animation: slideUp 0.3s ease-out forwards;
-}
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out forwards;
+  }
 
-/* Glass morphism utilities */
-.glass-card {
-  @apply backdrop-blur-xl border rounded-2xl transition-all duration-300;
-}
+  /* Glass morphism utilities */
+  .glass-card {
+    @apply backdrop-blur-xl border rounded-2xl transition-all duration-300;
+  }
 
-.dark .glass-card {
-  @apply bg-black/40 border-white/10 shadow-xl shadow-black/10;
-}
+  .dark .glass-card {
+    @apply bg-black/40 border-white/10 shadow-xl shadow-black/10;
+  }
 
-.light .glass-card {
-  @apply bg-white/80 border-black/5 shadow-lg shadow-black/5;
-}
+  .light .glass-card {
+    @apply bg-white/80 border-black/5 shadow-lg shadow-black/5;
+  }
 
-.glass-button {
-  @apply backdrop-blur-md transition-all duration-200 rounded-xl;
-}
+  .glass-button {
+    @apply backdrop-blur-md transition-all duration-200 rounded-xl hover:bg-black/10;
+  }
 
-.dark .glass-button {
-  @apply bg-white/5 hover:bg-white/10 active:bg-white/15;
-}
+  .dark .glass-button {
+    @apply bg-white/5 hover:bg-white/10;
+  }
 
-.light .glass-button {
-  @apply bg-black/5 hover:bg-black/10 active:bg-black/15;
-}
+  .light .glass-button {
+    @apply bg-black/5 hover:bg-black/10;
+  }
 
-/* Typography */
-.display-text {
-  @apply text-4xl font-bold tracking-tight;
-}
+  /* Typography */
+  .display-text {
+    @apply text-4xl font-bold tracking-tight;
+  }
 
-.heading-text {
-  @apply text-xl font-semibold tracking-tight;
-}
+  .heading-text {
+    @apply text-xl font-semibold tracking-tight;
+  }
 
-.label-text {
-  @apply text-sm font-medium text-muted-foreground;
-}
+  .label-text {
+    @apply text-sm font-medium text-muted-foreground;
+  }
 
-/* Hover effects */
-.hover-card {
-  @apply transition-all duration-200 hover:translate-y-[-2px] hover:shadow-lg;
-}
+  /* Hover effects */
+  .hover-card {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg;
+  }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-1.5 h-1.5;
+  }
 
-::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
 
-::-webkit-scrollbar-thumb {
-  @apply bg-muted-foreground/30 rounded-full transition-colors duration-200;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-muted-foreground/50;
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/30 rounded-full transition-colors duration-200 hover:bg-muted-foreground/50;
+  }
 }
