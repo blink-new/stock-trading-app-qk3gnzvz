@@ -28,10 +28,10 @@ const timeRanges = ['1D', '1W', '1M', '3M', '1Y', 'ALL']
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="backdrop-blur-md bg-zinc-900/70 border border-zinc-800/50 p-4 rounded-xl shadow-xl">
-        <p className="text-zinc-400 mb-1">{label}</p>
-        <p className="text-emerald-400 font-medium">${payload[0].value.toLocaleString()}</p>
-        <p className="text-zinc-500 text-sm">Volume: {payload[1].value.toLocaleString()}</p>
+      <div className="glass-card p-4 rounded-xl shadow-xl">
+        <p className="text-muted-foreground mb-1">{label}</p>
+        <p className="text-emerald-500 font-medium">${payload[0].value.toLocaleString()}</p>
+        <p className="text-muted-foreground/70 text-sm">Volume: {payload[1].value.toLocaleString()}</p>
       </div>
     )
   }
@@ -46,17 +46,15 @@ export function MarketOverview() {
   const isPositive = currentValue > previousValue
 
   const handleBuy = () => {
-    // Implement buy logic
     console.log('Buy clicked')
   }
 
   const handleSell = () => {
-    // Implement sell logic
     console.log('Sell clicked')
   }
 
   return (
-    <div className="relative w-full p-6 rounded-2xl overflow-hidden bg-gradient-to-br from-zinc-900/90 to-zinc-950/90 backdrop-blur-xl border border-zinc-800/50 shadow-2xl">
+    <div className="relative w-full p-6 rounded-2xl overflow-hidden glass-card">
       {/* Decorative elements */}
       <div className="absolute top-0 left-1/4 w-1/2 h-1/2 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-1/2 h-1/2 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -65,14 +63,14 @@ export function MarketOverview() {
         {/* Header Section */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-xl font-medium text-zinc-200 mb-2">Market Overview</h2>
+            <h2 className="text-xl font-medium text-foreground mb-2">Market Overview</h2>
             <div className="flex items-center gap-3">
-              <span className="text-3xl font-bold text-zinc-100 tracking-tight">
+              <span className="text-3xl font-bold text-foreground tracking-tight">
                 ${currentValue.toLocaleString()}
               </span>
               <div className={cn(
-                "flex items-center gap-1 px-3 py-1.5 rounded-full backdrop-blur-md",
-                isPositive ? "text-emerald-400 bg-emerald-500/10" : "text-red-400 bg-red-500/10"
+                "flex items-center gap-1 px-3 py-1.5 rounded-full glass-button",
+                isPositive ? "text-emerald-500" : "text-red-500"
               )}>
                 {isPositive ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
                 <span className="text-sm font-medium">{percentageChange}%</span>
@@ -84,13 +82,13 @@ export function MarketOverview() {
           <div className="flex gap-3">
             <Button
               onClick={handleSell}
-              className="bg-red-500/10 text-red-400 hover:bg-red-500/20 border-red-500/20 backdrop-blur-md"
+              className="glass-button text-red-500"
             >
               Sell
             </Button>
             <Button
               onClick={handleBuy}
-              className="bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border-emerald-500/20 backdrop-blur-md"
+              className="glass-button text-emerald-500"
             >
               Buy
             </Button>
@@ -104,10 +102,10 @@ export function MarketOverview() {
               key={range}
               onClick={() => setSelectedRange(range)}
               className={cn(
-                "px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 backdrop-blur-md",
+                "px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200",
                 selectedRange === range 
-                  ? "bg-emerald-500 text-zinc-900 shadow-lg shadow-emerald-500/20" 
-                  : "text-zinc-400 hover:bg-zinc-800/50"
+                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
+                  : "text-muted-foreground hover:bg-muted"
               )}
             >
               {range}
@@ -122,12 +120,12 @@ export function MarketOverview() {
             { icon: TrendingUp, label: '24h High', value: `$${Math.max(...mockData.map(d => d.value)).toLocaleString()}` },
             { icon: Volume2, label: 'Volume', value: mockData[mockData.length - 1].volume.toLocaleString() }
           ].map((stat, i) => (
-            <div key={i} className="backdrop-blur-md bg-white/5 rounded-xl p-4 border border-zinc-800/50 transition-all duration-200 hover:bg-white/10">
-              <div className="flex items-center gap-2 text-zinc-400 mb-2">
+            <div key={i} className="glass-card rounded-xl p-4 transition-all duration-200 hover:bg-muted/50">
+              <div className="flex items-center gap-2 text-muted-foreground mb-2">
                 <stat.icon size={16} />
                 <span className="text-sm">{stat.label}</span>
               </div>
-              <span className="text-zinc-200 font-medium">{stat.value}</span>
+              <span className="text-foreground font-medium">{stat.value}</span>
             </div>
           ))}
         </div>
@@ -138,19 +136,20 @@ export function MarketOverview() {
             <AreaChart data={mockData}>
               <defs>
                 <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#00DC82" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#00DC82" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="rgb(16, 185, 129)" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="rgb(16, 185, 129)" stopOpacity={0}/>
                 </linearGradient>
               </defs>
               <XAxis 
-                dataKey="time" 
-                stroke="#666666"
+                dataKey="time" stroke="currentColor"
+                className="text-muted-foreground"
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis 
-                stroke="#666666"
+                stroke="currentColor"
+                className="text-muted-foreground"
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
@@ -160,7 +159,7 @@ export function MarketOverview() {
               <Area
                 type="monotone"
                 dataKey="value"
-                stroke="#00DC82"
+                stroke="rgb(16, 185, 129)"
                 strokeWidth={2}
                 fillOpacity={1}
                 fill="url(#colorValue)"
@@ -169,8 +168,9 @@ export function MarketOverview() {
                 type="monotone"
                 dataKey="volume"
                 stroke="transparent"
-                fill="#4B5563"
+                fill="currentColor"
                 fillOpacity={0.1}
+                className="text-muted-foreground"
               />
             </AreaChart>
           </ResponsiveContainer>
