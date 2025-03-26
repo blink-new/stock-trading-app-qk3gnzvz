@@ -2,22 +2,23 @@
 import { Card, CardContent } from "./ui/card"
 import { usePortfolioStore } from "@/store/portfolio"
 import { formatCurrency, formatPercentage } from "@/lib/utils"
-import { TrendingUp } from "lucide-react"
+import { TrendingUp, Wallet, ArrowUpRight } from "lucide-react"
 import { Button } from "./ui/button"
+import { cn } from "@/lib/utils"
 
 export function PortfolioSummary() {
   const { portfolio, isLoading } = usePortfolioStore()
 
   if (isLoading) {
     return (
-      <Card className="w-full animate-pulse card-dark">
-        <CardContent className="p-6">
-          <div className="space-y-4">
-            <div className="h-12 bg-muted rounded"></div>
-            <div className="h-8 bg-muted rounded"></div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="h-16 bg-muted rounded"></div>
-              <div className="h-16 bg-muted rounded"></div>
+      <Card className="w-full animate-pulse glass-card">
+        <CardContent className="p-8">
+          <div className="space-y-6">
+            <div className="h-12 bg-muted rounded-xl"></div>
+            <div className="h-8 bg-muted rounded-xl"></div>
+            <div className="grid grid-cols-2 gap-6">
+              <div className="h-24 bg-muted rounded-xl"></div>
+              <div className="h-24 bg-muted rounded-xl"></div>
             </div>
           </div>
         </CardContent>
@@ -26,37 +27,45 @@ export function PortfolioSummary() {
   }
 
   return (
-    <Card className="w-full card-dark">
-      <CardContent className="p-6">
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-xl mb-4 text-zinc-500">Portfolio</h2>
-            <h3 className="text-4xl font-medium tracking-tight">
+    <Card className="w-full glass-card hover-card">
+      <CardContent className="p-8">
+        <div className="space-y-8">
+          <div className="animate-slide-up">
+            <h2 className="heading-text mb-6 text-muted-foreground">Portfolio Value</h2>
+            <h3 className="display-text mb-3">
               {formatCurrency(portfolio.totalValue)}
             </h3>
-            <div className="flex items-center gap-2 mt-2 success-text">
-              <TrendingUp className="h-4 w-4" />
-              <span className="text-sm">
+            <div className="flex items-center gap-2 text-success">
+              <ArrowUpRight className="h-5 w-5" />
+              <span className="text-base font-medium">
                 {formatCurrency(portfolio.dayGain)} ({formatPercentage(portfolio.dayGainPercent)}) Today
               </span>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <p className="text-sm text-zinc-500">Total Gain/Loss</p>
-              <p className="text-2xl success-text">
+          <div className="grid grid-cols-2 gap-8 animate-slide-up" style={{ animationDelay: '100ms' }}>
+            <div className="glass-card p-6 rounded-2xl hover-card">
+              <div className="flex items-center gap-2 text-muted-foreground mb-4">
+                <TrendingUp className="h-5 w-5" />
+                <p className="text-sm font-medium">Total Gain/Loss</p>
+              </div>
+              <p className="text-2xl font-semibold text-success mb-1">
                 {formatCurrency(portfolio.totalGain)}
               </p>
-              <p className="text-sm success-text">
+              <p className="text-sm text-success font-medium">
                 {formatPercentage(portfolio.totalGainPercent)}
               </p>
             </div>
-            <div className="space-y-2">
-              <p className="text-sm text-zinc-500">Available Cash</p>
-              <p className="text-2xl">{formatCurrency(portfolio.cash)}</p>
-              <Button className="w-full mt-2 bg-[#111111] hover:bg-[#222222] text-white border-none">
-                Deposit
+            <div className="glass-card p-6 rounded-2xl hover-card">
+              <div className="flex items-center gap-2 text-muted-foreground mb-4">
+                <Wallet className="h-5 w-5" />
+                <p className="text-sm font-medium">Available Cash</p>
+              </div>
+              <p className="text-2xl font-semibold mb-4">
+                {formatCurrency(portfolio.cash)}
+              </p>
+              <Button className="w-full glass-button font-medium">
+                Deposit Funds
               </Button>
             </div>
           </div>
