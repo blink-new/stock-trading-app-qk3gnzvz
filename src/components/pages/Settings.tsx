@@ -1,10 +1,10 @@
 
-import { Card } from "../ui/card"
-import { Button } from "../ui/button"
-import { Input } from "../ui/input"
-import { Label } from "../ui/label"
-import { Switch } from "../ui/switch"
-import { ThemeToggle } from "../theme-toggle"
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export function Settings() {
   return (

@@ -1,5 +1,5 @@
 
-import { Card } from "../ui/card"
+import { Card } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts"
 
 const mockData = [
