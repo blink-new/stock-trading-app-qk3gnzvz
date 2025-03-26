@@ -1,7 +1,9 @@
 
+import { useState } from 'react'
 import { Card, CardContent } from "./ui/card"
+import { Button } from "./ui/button"
 import { LineChart, Line, ResponsiveContainer, YAxis, XAxis, Tooltip, Area, AreaChart } from 'recharts'
-import { ArrowUpRight, ArrowDownRight, Clock, TrendingUp, DollarSign, Volume2 } from 'lucide-react'
+import { ArrowUpRight, ArrowDownRight, Clock, TrendingUp, Volume2, DollarSign } from 'lucide-react'
 import { cn } from "@/lib/utils"
 
 const mockData = [
@@ -26,9 +28,9 @@ const timeRanges = ['1D', '1W', '1M', '3M', '1Y', 'ALL']
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-zinc-800 border border-zinc-700 p-3 rounded-lg shadow-lg">
+      <div className="backdrop-blur-md bg-zinc-900/70 border border-zinc-800/50 p-4 rounded-xl shadow-xl">
         <p className="text-zinc-400 mb-1">{label}</p>
-        <p className="text-emerald-500 font-medium">${payload[0].value.toLocaleString()}</p>
+        <p className="text-emerald-400 font-medium">${payload[0].value.toLocaleString()}</p>
         <p className="text-zinc-500 text-sm">Volume: {payload[1].value.toLocaleString()}</p>
       </div>
     )
@@ -37,69 +39,100 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 }
 
 export function MarketOverview() {
+  const [selectedRange, setSelectedRange] = useState('1D')
   const currentValue = mockData[mockData.length - 1].value
   const previousValue = mockData[0].value
   const percentageChange = ((currentValue - previousValue) / previousValue * 100).toFixed(2)
   const isPositive = currentValue > previousValue
 
+  const handleBuy = () => {
+    // Implement buy logic
+    console.log('Buy clicked')
+  }
+
+  const handleSell = () => {
+    // Implement sell logic
+    console.log('Sell clicked')
+  }
+
   return (
-    <Card className="w-full card-dark">
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between mb-6">
+    <div className="relative w-full p-6 rounded-2xl overflow-hidden bg-gradient-to-br from-zinc-900/90 to-zinc-950/90 backdrop-blur-xl border border-zinc-800/50 shadow-2xl">
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-1/4 w-1/2 h-1/2 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-1/2 h-1/2 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+      
+      <div className="relative">
+        {/* Header Section */}
+        <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-xl font-medium text-zinc-200 mb-2">Market Overview</h2>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold text-zinc-100">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl font-bold text-zinc-100 tracking-tight">
                 ${currentValue.toLocaleString()}
               </span>
               <div className={cn(
-                "flex items-center gap-1 px-2 py-1 rounded",
-                isPositive ? "text-emerald-500 bg-emerald-500/10" : "text-red-500 bg-red-500/10"
+                "flex items-center gap-1 px-3 py-1.5 rounded-full backdrop-blur-md",
+                isPositive ? "text-emerald-400 bg-emerald-500/10" : "text-red-400 bg-red-500/10"
               )}>
                 {isPositive ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
                 <span className="text-sm font-medium">{percentageChange}%</span>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            {timeRanges.map((range) => (
-              <button
-                key={range}
-                className="px-3 py-1 rounded text-sm font-medium hover:bg-zinc-800 transition-colors
-                          focus:outline-none focus:ring-2 focus:ring-emerald-500/20
-                          data-[active=true]:bg-emerald-500 data-[active=true]:text-zinc-900"
-                data-active={range === '1D'}
-              >
-                {range}
-              </button>
-            ))}
+
+          {/* Buy/Sell Buttons */}
+          <div className="flex gap-3">
+            <Button
+              onClick={handleSell}
+              className="bg-red-500/10 text-red-400 hover:bg-red-500/20 border-red-500/20 backdrop-blur-md"
+            >
+              Sell
+            </Button>
+            <Button
+              onClick={handleBuy}
+              className="bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border-emerald-500/20 backdrop-blur-md"
+            >
+              Buy
+            </Button>
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          <div className="bg-zinc-800/50 rounded-lg p-4">
-            <div className="flex items-center gap-2 text-zinc-400 mb-2">
-              <Clock size={16} />
-              <span className="text-sm">Last Update</span>
-            </div>
-            <span className="text-zinc-200 font-medium">16:00 EST</span>
-          </div>
-          <div className="bg-zinc-800/50 rounded-lg p-4">
-            <div className="flex items-center gap-2 text-zinc-400 mb-2">
-              <TrendingUp size={16} />
-              <span className="text-sm">24h High</span>
-            </div>
-            <span className="text-zinc-200 font-medium">${(Math.max(...mockData.map(d => d.value))).toLocaleString()}</span>
-          </div>
-          <div className="bg-zinc-800/50 rounded-lg p-4">
-            <div className="flex items-center gap-2 text-zinc-400 mb-2">
-              <Volume2 size={16} />
-              <span className="text-sm">Volume</span>
-            </div>
-            <span className="text-zinc-200 font-medium">{mockData[mockData.length - 1].volume.toLocaleString()}</span>
-          </div>
+        {/* Time Range Selector */}
+        <div className="flex items-center justify-end gap-2 mb-6">
+          {timeRanges.map((range) => (
+            <button
+              key={range}
+              onClick={() => setSelectedRange(range)}
+              className={cn(
+                "px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 backdrop-blur-md",
+                selectedRange === range 
+                  ? "bg-emerald-500 text-zinc-900 shadow-lg shadow-emerald-500/20" 
+                  : "text-zinc-400 hover:bg-zinc-800/50"
+              )}
+            >
+              {range}
+            </button>
+          ))}
         </div>
 
+        {/* Stats Grid */}
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          {[
+            { icon: Clock, label: 'Last Update', value: '16:00 EST' },
+            { icon: TrendingUp, label: '24h High', value: `$${Math.max(...mockData.map(d => d.value)).toLocaleString()}` },
+            { icon: Volume2, label: 'Volume', value: mockData[mockData.length - 1].volume.toLocaleString() }
+          ].map((stat, i) => (
+            <div key={i} className="backdrop-blur-md bg-white/5 rounded-xl p-4 border border-zinc-800/50 transition-all duration-200 hover:bg-white/10">
+              <div className="flex items-center gap-2 text-zinc-400 mb-2">
+                <stat.icon size={16} />
+                <span className="text-sm">{stat.label}</span>
+              </div>
+              <span className="text-zinc-200 font-medium">{stat.value}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Chart */}
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={mockData}>
@@ -142,7 +175,7 @@ export function MarketOverview() {
             </AreaChart>
           </ResponsiveContainer>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
