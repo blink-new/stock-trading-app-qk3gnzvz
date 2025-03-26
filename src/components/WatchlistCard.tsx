@@ -2,24 +2,45 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { useWatchlistStore } from "@/store/watchlist"
 import { formatCurrency, formatPercentage } from "@/lib/utils"
-import { TrendingUp, TrendingDown, X } from "lucide-react"
+import { TrendingUp, TrendingDown, X, Plus } from "lucide-react"
+import { Button } from "./ui/button"
 
 export function WatchlistCard() {
   const { items, isLoading, removeFromWatchlist } = useWatchlistStore()
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <Card className="w-full animate-pulse">
+        <CardHeader>
+          <div className="h-8 w-1/3 bg-muted rounded"></div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-16 bg-muted rounded"></div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    )
   }
 
   return (
-    <Card className="w-full">
-      <CardHeader>
+    <Card className="w-full gradient-border">
+      <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Watchlist</CardTitle>
+        <Button variant="outline" size="sm">
+          <Plus className="h-4 w-4 mr-2" />
+          Add Stock
+        </Button>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           {items.map((item) => (
-            <div key={item.symbol} className="flex items-center justify-between p-2 hover:bg-secondary rounded-lg transition-colors">
+            <div 
+              key={item.symbol} 
+              className="flex items-center justify-between p-3 hover:bg-accent rounded-lg transition-all duration-200 group animate-scale"
+            >
               <div>
                 <div className="flex items-center gap-2">
                   <h4 className="font-medium">{item.symbol}</h4>
@@ -40,7 +61,7 @@ export function WatchlistCard() {
                     <TrendingUp className="h-3 w-3" /> : 
                     <TrendingDown className="h-3 w-3" />
                   }
-                  <span className="text-sm">
+                  <span className="text-sm font-medium">
                     {formatPercentage(item.changePercent)}
                   </span>
                 </div>
