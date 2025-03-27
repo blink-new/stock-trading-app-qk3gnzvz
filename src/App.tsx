@@ -1,55 +1,20 @@
 
-import { MarketOverview } from "./components/MarketOverview"
-import { ThemeProvider } from "./components/theme-provider"
-import { Sidebar } from "./components/Sidebar"
-import { Header } from "./components/Header"
-import { Portfolio } from "./components/pages/Portfolio"
-import { Transactions } from "./components/pages/Transactions"
-import { Settings } from "./components/pages/Settings"
-import { Help } from "./components/pages/Help"
-import { useState } from "react"
-import { useSidebarStore } from "./store/sidebar"
-import { cn } from "./lib/utils"
+import { Layout } from './components/Layout';
+import { MarketOverview } from './components/MarketOverview';
 
-function App() {
-  const [currentPage, setCurrentPage] = useState('markets')
-  const isCollapsed = useSidebarStore((state) => state.isCollapsed)
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'markets':
-        return <MarketOverview />
-      case 'portfolio':
-        return <Portfolio />
-      case 'transactions':
-        return <Transactions />
-      case 'settings':
-        return <Settings />
-      case 'help':
-        return <Help />
-      default:
-        return <MarketOverview />
-    }
-  }
+export default function App() {
+  // Sample data - in a real app this would come from an API
+  const marketData = {
+    price: 17500,
+    change: 29.63,
+    lastUpdate: '16:00 EST',
+    high24h: 17500,
+    volume: 3500
+  };
 
   return (
-    <ThemeProvider defaultTheme="system" storageKey="tradepro-theme">
-      <div className="min-h-screen bg-gradient-to-br from-background to-background/80 transition-colors duration-300">
-        <div className="flex h-screen overflow-hidden">
-          <Sidebar onNavigate={setCurrentPage} currentPage={currentPage} />
-          <main className={cn(
-            "flex-1 overflow-y-auto transition-all duration-300",
-            isCollapsed ? "ml-[80px]" : "ml-[240px]"
-          )}>
-            <Header />
-            <div className="container p-6">
-              {renderPage()}
-            </div>
-          </main>
-        </div>
-      </div>
-    </ThemeProvider>
-  )
+    <Layout>
+      <MarketOverview {...marketData} />
+    </Layout>
+  );
 }
-
-export default App
